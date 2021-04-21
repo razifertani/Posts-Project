@@ -11,6 +11,7 @@ import { Post } from '../models/post.model';
 export class PostsCreateComponent implements OnInit {
   enteredTitle: string = '';
   enteredContent: string = '';
+  isLoading = false;
 
   constructor(public postsService: PostsService) { }
 
@@ -24,6 +25,7 @@ export class PostsCreateComponent implements OnInit {
         title: form.value.title,
         content: form.value.content
       };
+      this.isLoading = true;
       this.postsService.addPost(post);
       form.resetForm();
     }
