@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Post } from '../models/post.model';
-import { PostsService } from './../services/posts.service';
+import { PostsService } from '../services/posts.service';
 
 @Component({
   selector: 'app-posts-list',
@@ -16,7 +16,7 @@ export class PostsListComponent implements OnInit, OnDestroy {
   constructor(public postsService: PostsService) { }
 
   ngOnInit(): void {
-    this.posts = this.postsService.getPosts();
+    this.postsService.getPosts();
     this.postsSub = this.postsService.getPostUpdateListener()
       .subscribe((posts: Post[]) => {
         this.posts = posts;
@@ -25,6 +25,11 @@ export class PostsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.postsSub?.unsubscribe();
+  }
+
+  onDelete(id: string) {
+    this.postsService.deletePost(id);
+
   }
 
 

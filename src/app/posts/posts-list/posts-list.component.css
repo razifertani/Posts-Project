@@ -3,6 +3,10 @@
     margin-top: 2rem;
 }
 
+mat-accordion{
+    margin: 4rem;
+}
+
 .info-text {
     text-align: center;
 }

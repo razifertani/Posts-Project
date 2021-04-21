@@ -1,4 +1,4 @@
-import { PostsService } from './../services/posts.service';
+import { PostsService } from '../services/posts.service';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../models/post.model';
@@ -9,8 +9,8 @@ import { Post } from '../models/post.model';
   styleUrls: ['./posts-create.component.css']
 })
 export class PostsCreateComponent implements OnInit {
-  enteredTitle: String = '';
-  enteredContent: String = '';
+  enteredTitle: string = '';
+  enteredContent: string = '';
 
   constructor(public postsService: PostsService) { }
 
@@ -20,6 +20,7 @@ export class PostsCreateComponent implements OnInit {
   onAddPost(form: NgForm) {
     if (form.valid) {
       const post: Post = {
+        id: 'undefined',
         title: form.value.title,
         content: form.value.content
       };
