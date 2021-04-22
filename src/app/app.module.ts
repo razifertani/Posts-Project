@@ -15,16 +15,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { PostsCreateComponent } from './posts/posts-create/posts-create.component';
+import { TodosCreateComponent } from './todos/todos-create/todos-create.component';
 import { HeaderComponent } from './header/header/header.component';
-import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { TodosListComponent } from './todos/todos-list/todos-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsCreateComponent,
+    TodosCreateComponent,
     HeaderComponent,
-    PostsListComponent,
+    TodosListComponent,
   ],
   imports: [
     BrowserModule,

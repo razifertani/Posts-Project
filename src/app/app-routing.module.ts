@@ -1,11 +1,11 @@
-import { PostsCreateComponent } from './posts/posts-create/posts-create.component';
-import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { TodosCreateComponent } from './todos/todos-create/todos-create.component';
+import { TodosListComponent } from './todos/todos-list/todos-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: PostsListComponent },
-  { path: 'create', component: PostsCreateComponent },
+  { path: '', component: TodosListComponent },
+  { path: 'create', component: TodosCreateComponent },
 
 ];
 

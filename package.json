@@ -1,5 +1,5 @@
 {
-  "name": "posts",
+  "name": "todos",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

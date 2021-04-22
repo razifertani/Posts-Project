@@ -1,0 +1,18 @@
+<mat-spinner *ngIf="isLoading"> </mat-spinner>
+<mat-accordion multi="true" *ngIf="todos.length > 0 && !isLoading">
+    <mat-expansion-panel *ngFor="let todo of todos">
+        <mat-expansion-panel-header>
+            {{ todo.title }}
+        </mat-expansion-panel-header>
+        <p>
+            {{ todo.content }}
+        </p>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="onDelete(todo.id)"> DELETE </button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-paginator [length]=totalTodos [pageSize]=todosPerPage [pageSizeOptions]=pageSizeOptions
+    (page)="onChangedPage($event)" *ngIf="todos.length > 0">
+</mat-paginator>
+<p class="info-text mat-body-1" *ngIf="todos.length == 0 && !isLoading"> No todos added yet ! </p>

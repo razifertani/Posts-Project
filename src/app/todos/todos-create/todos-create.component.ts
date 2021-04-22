@@ -1,20 +1,20 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from '../services/posts.service';
-import { Post } from '../models/post.model';
+import { TodosService } from '../services/todos.service';
+import { Todo } from '../models/todo.model';
 
 @Component({
-  selector: 'app-posts-create',
-  templateUrl: './posts-create.component.html',
-  styleUrls: ['./posts-create.component.css']
+  selector: 'app-todos-create',
+  templateUrl: './todos-create.component.html',
+  styleUrls: ['./todos-create.component.css']
 })
-export class PostsCreateComponent implements OnInit {
+export class TodosCreateComponent implements OnInit {
   enteredTitle: string = '';
   enteredContent: string = '';
   isLoading = false;
   form: FormGroup;
 
-  constructor(public postsService: PostsService) { }
+  constructor(public todosService: TodosService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -26,22 +26,18 @@ export class PostsCreateComponent implements OnInit {
         null,
         { validators: [Validators.required] }
       ),
-      image: new FormControl(
-        null,
-        { validators: [Validators.required] }
-      ),
     });
   }
 
-  onAddPost() {
+  onAddTodo() {
     if (this.form.valid) {
-      const post: Post = {
+      const todo: Todo = {
         id: 'undefined',
         title: this.form.value.title,
-        content: this.form.value.content
+        content: this.form.value.content,
       };
       this.isLoading = true;
-      this.postsService.addPost(post);
+      this.todosService.addTodo(todo);
       this.form.reset();
     }
   }

@@ -1,50 +1,50 @@
 const express = require('express');
 
-const Post = require('../models/post');
+const Todo = require('../models/todo');
 
 const router = express.Router();
 
 
-router.get('/api/posts', (req, res, next) => {
+router.get('/api/todos', (req, res, next) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.currentpage;
-    const postQuery = Post.find();
-    let fetchedPosts;
+    const todoQuery = Todo.find();
+    let fetchedTodos;
 
     if (pageSize && currentPage) {
-        postQuery
+        todoQuery
             .skip(pageSize * (currentPage - 1))
             .limit(pageSize);
     }
 
-    postQuery.then((data) => {
-        fetchedPosts = data;
-        return Post.count();
+    todoQuery.then((data) => {
+        fetchedTodos = data;
+        return Todo.countDocuments();
     }).then((count) => {
         res.status(200).json({
             success: "true",
-            posts: fetchedPosts,
-            postsLength: count,
+            todos: fetchedTodos,
+            todosLength: count,
         });
     });
 });
 
-router.post('/api/posts', (req, res, next) => {
-    const post = new Post({
+router.post('/api/todos', (req, res, next) => {
+    const todo = new Todo({
         title: req.body.title,
         content: req.body.content,
     });
 
-    post.save().then((result) => {
+    todo.save().then((result) => {
         res.status(201).json({
             success: 'true',
-            postId: result._id,
+            todoId: result._id,
         });
     });
 });
 
-router.delete('/api/posts/:id', (req, res, next) => {
-    Post.deleteOne({
+router.delete('/api/todos/:id', (req, res, next) => {
+    Todo.deleteOne({
         _id: req.params.id,
     }).then((result) => {
         res.status(200).json({
