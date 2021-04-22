@@ -6,10 +6,25 @@ const router = express.Router();
 
 
 router.get('/api/posts', (req, res, next) => {
-    Post.find().then((data) => {
-        return res.status(200).json({
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.currentpage;
+    const postQuery = Post.find();
+    let fetchedPosts;
+
+    if (pageSize && currentPage) {
+        postQuery
+            .skip(pageSize * (currentPage - 1))
+            .limit(pageSize);
+    }
+
+    postQuery.then((data) => {
+        fetchedPosts = data;
+        return Post.count();
+    }).then((count) => {
+        res.status(200).json({
             success: "true",
-            posts: data,
+            posts: fetchedPosts,
+            postsLength: count,
         });
     });
 });

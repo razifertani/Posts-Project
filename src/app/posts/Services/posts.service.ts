@@ -8,27 +8,34 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
     private posts: Post[] = [];
-    private postsUpdated = new Subject<Post[]>();
+    private postsUpdated = new Subject<{ posts: Post[], postsLength: number }>();
 
     constructor(
         private httpClient: HttpClient,
         private router: Router,
     ) { }
 
-    getPosts() {
-        this.httpClient.get<any>('http://127.0.0.1:3000/api/posts')
+    getPosts(postSize: number, currentPage: number) {
+        const queryParams = "?pagesize=" + postSize + "&currentpage=" + currentPage;
+        this.httpClient.get<any>('http://127.0.0.1:3000/api/posts' + queryParams)
             .pipe(map((data) => {
-                return data.posts.map((post: any) => {
-                    return {
-                        id: post._id,
-                        title: post.title,
-                        content: post.content,
-                    }
-                });
+                return {
+                    postsLength: data.postsLength,
+                    posts: data.posts.map((post: any) => {
+                        return {
+                            id: post._id,
+                            title: post.title,
+                            content: post.content,
+                        }
+                    }),
+                }
             }))
-            .subscribe((posts) => {
-                this.posts = posts;
-                this.postsUpdated.next([...this.posts]);
+            .subscribe((data) => {
+                this.posts = data.posts;
+                this.postsUpdated.next({
+                    postsLength: data.postsLength,
+                    posts: [...this.posts],
+                });
             });
     }
 
@@ -39,20 +46,12 @@ export class PostsService {
     addPost(post: Post) {
         this.httpClient.post<any>('http://127.0.0.1:3000/api/posts', post)
             .subscribe((data) => {
-                post.id = data.postId;
-                this.posts.push(post);
-                this.postsUpdated.next([...this.posts]);
-
                 this.router.navigate(['/']);
             });
     }
 
     deletePost(id: string) {
-        this.httpClient.delete<any>('http://127.0.0.1:3000/api/posts/' + id)
-            .subscribe(() => {
-                const updatedPosts = this.posts.filter(post => post.id != id);
-                this.posts = updatedPosts;
-                this.postsUpdated.next([...this.posts]);
-            });
+        return this.httpClient.delete<any>('http://127.0.0.1:3000/api/posts/' + id)
+
     }
 }
