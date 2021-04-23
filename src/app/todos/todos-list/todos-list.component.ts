@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
@@ -12,14 +13,20 @@ import { TodosService } from '../services/todos.service';
 })
 export class TodosListComponent implements OnInit, OnDestroy {
   todos: Todo[] = [];
-  todosSub: Subscription | undefined;
+  todosSub: Subscription;
   isLoading = false;
   totalTodos = 10;
   todosPerPage = 20;
   currentPage = 1;
   pageSizeOptions = [2, 5, 20, 50];
 
-  constructor(public todosService: TodosService) { }
+  isAuthenticated = false;
+  private authStatusSubscription: Subscription;
+
+  constructor(
+    public todosService: TodosService,
+    public authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -30,10 +37,12 @@ export class TodosListComponent implements OnInit, OnDestroy {
         this.todos = todos.todos;
         this.totalTodos = todos.todosLength;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.todosSub?.unsubscribe();
+    this.isAuthenticated = this.authService.getIsAuthenticated();
+    this.authStatusSubscription = this.authService.getAuthStatusListener().subscribe(
+      value => {
+        this.isAuthenticated = value;
+      }
+    );
   }
 
   onDelete(id: string) {
@@ -51,5 +60,8 @@ export class TodosListComponent implements OnInit, OnDestroy {
     this.todosService.getTodos(this.todosPerPage, this.currentPage);
   }
 
-
+  ngOnDestroy(): void {
+    this.todosSub.unsubscribe();
+    this.authStatusSubscription.unsubscribe();
+  }
 }

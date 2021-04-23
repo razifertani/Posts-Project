@@ -1,6 +1,7 @@
+import { AuthInterceptor } from './auth/services/auth-interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -10,14 +11,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { TodosCreateComponent } from './todos/todos-create/todos-create.component';
-import { HeaderComponent } from './header/header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { TodosListComponent } from './todos/todos-list/todos-list.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +28,13 @@ import { TodosListComponent } from './todos/todos-list/todos-list.component';
     TodosCreateComponent,
     HeaderComponent,
     TodosListComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -40,7 +46,13 @@ import { TodosListComponent } from './todos/todos-list/todos-list.component';
     MatPaginatorModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

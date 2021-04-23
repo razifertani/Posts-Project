@@ -7,7 +7,7 @@
         <p>
             {{ todo.content }}
         </p>
-        <mat-action-row>
+        <mat-action-row *ngIf="isAuthenticated">
             <button mat-button color="warn" (click)="onDelete(todo.id)"> DELETE </button>
         </mat-action-row>
     </mat-expansion-panel>
