@@ -1,4 +1,4 @@
-Posts Project
+TODOS PROJECT
 
 Developed by: 
-  Razi FERTANI, MEANSTACK DEVELOPER
+  Razi FERTANI, -  Meanstack developer
