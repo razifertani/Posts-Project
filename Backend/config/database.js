@@ -1,4 +1,4 @@
 module.exports = {
-    database: 'mongodb+srv://razi:razi@meanstack.ya962.mongodb.net/meanstack',
-    secret: 'meanstack'
+    database: process.env.DATABASE_URL,
+    secret: process.env.DATABASE_SECRET_KEY,
 }

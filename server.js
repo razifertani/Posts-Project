@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const todosRoutes = require('./Backend/routes/todos');
-const userRoutes = require('./Backend/routes/users');
+const todosRoutes = require('./Backend/routes/todosRoutes');
+const userRoutes = require('./Backend/routes/usersRoutes');
 
 const port = process.env.PORT || 3000;
 

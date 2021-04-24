@@ -1,12 +1,8 @@
-const express = require('express');
+const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/user");
-
-const router = express.Router();
-
-router.post('/api/user/register', (req, res, next) => {
+exports.register = (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then((hash) => {
         const user = new User({
             email: req.body.email,
@@ -15,19 +11,19 @@ router.post('/api/user/register', (req, res, next) => {
 
         user.save().then((result) => {
             res.status(201).json({
-                success: 'true',
+                success: true,
                 userId: result._id,
             });
         }).catch((err) => {
             res.status(500).json({
-                success: 'false',
+                success: false,
                 message: 'User already exists !',
             });
         });
     });
-});
+}
 
-router.post('/api/user/login', (req, res, next) => {
+exports.login = (req, res, next) => {
     let user;
     User.findOne({ email: req.body.email })
         .then((userfromDB) => {
@@ -51,7 +47,7 @@ router.post('/api/user/login', (req, res, next) => {
 
                 const token = jwt.sign(
                     { email: user.email, userId: user._id },
-                    'secret-key-must-be-protected',
+                    process.env.JWT_KEY,
                     { expiresIn: "1h" },
                 );
 
@@ -69,6 +65,4 @@ router.post('/api/user/login', (req, res, next) => {
                 message: "Wrong password !",
             });
         });
-});
-
-module.exports = router;
+}
