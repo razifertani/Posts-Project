@@ -1,15 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
-const todosRoutes = require('./Backend/routes/todosRoutes');
-const userRoutes = require('./Backend/routes/usersRoutes');
+const todosRoutes = require('./routes/todosRoutes');
+const userRoutes = require('./routes/usersRoutes');
 
 const port = process.env.PORT || 3000;
 
 const app = express();
 
-const config = require('./Backend/config/database');
+const config = require('./config/database');
 
 mongoose.connect(config.database).then(() => {
     console.log('CONNECTED ************');
@@ -18,6 +19,7 @@ mongoose.connect(config.database).then(() => {
 });
 
 app.use(bodyParser.json());
+app.use("/", express.static(path.join(__dirname, "angular-frontend")));
 
 app.use((req, res, next) => {
     res.setHeader(
@@ -34,8 +36,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(todosRoutes);
-app.use(userRoutes);
+app.use('/api/todos', todosRoutes);
+app.use('/api/user', userRoutes);
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, "angular-frontend", "index.html"));
+});
 
 app.set("port", port);
 app.listen(port, () => {

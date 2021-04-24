@@ -55,7 +55,7 @@ export class TodosService {
     }
 
     deleteTodo(id: string) {
-        return this.httpClient.delete<any>(BACKEND_URL + '/api/todos/' + id)
+        return this.httpClient.get<any>(BACKEND_URL + '/api/todos/delete/' + id)
 
     }
 }

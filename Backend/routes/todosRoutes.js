@@ -6,12 +6,12 @@ const todosController = require('../controllers/todosController');
 const checkAuth = require('../middleware/checkAuth');
 
 
-router.get('/api/todos', todosController.getAllTodos);
+router.get('/', todosController.getAllTodos);
 
-router.get("/api/todos/:id", todosController.findById);
+router.get("/:id", todosController.findById);
 
-router.post('/api/todos', checkAuth, todosController.createTodo);
+router.post('/', checkAuth, todosController.createTodo);
 
-router.delete('/api/todos/:id', checkAuth, todosController.deleteTodo);
+router.get('/delete/:id', checkAuth, todosController.deleteTodo);
 
 module.exports = router;
