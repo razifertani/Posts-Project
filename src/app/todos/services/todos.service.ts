@@ -52,7 +52,7 @@ export class TodosService {
     }
 
     deleteTodo(id: string) {
-        return this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos" + id)
+        return this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos/" + id)
 
     }
 }
