@@ -1,7 +1,0 @@
-{
-    "env": {
-        "DATABASE_URL": "mongodb+srv://razi:razi@meanstack.ya962.mongodb.net/meanstack",
-        "DATABASE_SECRET_KEY": "meanstack",
-        "JWT_KEY": "secret-key-must-be-protected"
-    }
-}

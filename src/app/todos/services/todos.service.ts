@@ -4,9 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import { Router } from '@angular/router';
-import { environment } from './../../../environments/environment';
-
-const BACKEND_URL = environment.BACKEND_URL;
 
 @Injectable({ providedIn: 'root' })
 export class TodosService {
@@ -20,7 +17,7 @@ export class TodosService {
 
     getTodos(todoSize: number, currentPage: number) {
         const queryParams = "?pagesize=" + todoSize + "&currentpage=" + currentPage;
-        this.httpClient.get<any>(BACKEND_URL + '/api/todos' + queryParams)
+        this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos"/* + queryParams */)
             .pipe(map((data) => {
                 return {
                     todosLength: data.todosLength,
@@ -48,14 +45,14 @@ export class TodosService {
     }
 
     addTodo(todo: Todo) {
-        this.httpClient.post<any>(BACKEND_URL + '/api/todos', todo)
+        this.httpClient.post<any>("https://todos--project.herokuapp.com/api/todos", todo)
             .subscribe((data) => {
                 this.router.navigate(['/']);
             });
     }
 
     deleteTodo(id: string) {
-        return this.httpClient.get<any>(BACKEND_URL + '/api/todos/delete/' + id)
+        return this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos" + id)
 
     }
 }

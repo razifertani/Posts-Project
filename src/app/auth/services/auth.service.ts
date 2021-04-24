@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthData } from '../models/authData.model';
 import { Router } from '@angular/router';
-import { environment } from './../../../environments/environment';
-
-const BACKEND_URL = environment.BACKEND_URL;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,7 +31,7 @@ export class AuthService {
     }
 
     registerUser(authData: AuthData) {
-        return this.httpClient.post<any>(BACKEND_URL + '/api/user/register', authData)
+        return this.httpClient.post<any>("https://todos--project.herokuapp.com/api/user/register", authData)
             .subscribe((response) => {
                 this.router.navigate(['/auth/login']);
             }, error => {
@@ -43,7 +40,7 @@ export class AuthService {
     }
 
     loginUser(authData: AuthData) {
-        this.httpClient.post<any>(BACKEND_URL + '/api/user/login', authData)
+        this.httpClient.post<any>("https://todos--project.herokuapp.com/api/user/login", authData)
             .subscribe((response) => {
                 console.log(response);
                 const token = response.token;

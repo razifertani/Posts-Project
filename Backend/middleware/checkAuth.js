@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
         return res.status(401).json({ message: "Token is required !" });
     } else {
         try {
-            const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+            const decodedToken = jwt.verify(token, "secret-key-must-be-protected");
             req.userData = {
                 userId: decodedToken.userId,
                 email: decodedToken.email,
