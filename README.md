@@ -1,4 +1,4 @@
+
 TODOS PROJECT
 
-Developed by: 
-  Razi FERTANI, -  Meanstack developer
+  - Razi Fertani:  Meanstack developer
