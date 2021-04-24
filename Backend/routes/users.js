@@ -21,7 +21,7 @@ router.post('/api/user/register', (req, res, next) => {
         }).catch((err) => {
             res.status(500).json({
                 success: 'false',
-                error: err,
+                message: 'User already exists !',
             });
         });
     });
@@ -66,7 +66,7 @@ router.post('/api/user/login', (req, res, next) => {
         .catch(err => {
             return res.status(401).json({
                 success: false,
-                message: err,
+                message: "Wrong password !",
             });
         });
 });

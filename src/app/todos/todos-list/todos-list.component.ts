@@ -23,6 +23,8 @@ export class TodosListComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   private authStatusSubscription: Subscription;
 
+  userId: string | null;
+
   constructor(
     public todosService: TodosService,
     public authService: AuthService,
@@ -30,6 +32,7 @@ export class TodosListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.userId = this.authService.getUserId();
     this.todosService.getTodos(this.todosPerPage, this.currentPage);
     this.todosSub = this.todosService.getTodoUpdateListener()
       .subscribe((todos: { todos: Todo[], todosLength: number }) => {
@@ -41,16 +44,21 @@ export class TodosListComponent implements OnInit, OnDestroy {
     this.authStatusSubscription = this.authService.getAuthStatusListener().subscribe(
       value => {
         this.isAuthenticated = value;
+        this.userId = this.authService.getUserId();
       }
     );
   }
 
-  onDelete(id: string) {
+  onDelete(id: string | null) {
     this.isLoading = true;
-    this.todosService.deleteTodo(id)
-      .subscribe(() => {
-        this.todosService.getTodos(this.todosPerPage, this.currentPage);
-      });
+    if (id) {
+      this.todosService.deleteTodo(id)
+        .subscribe(() => {
+          this.todosService.getTodos(this.todosPerPage, this.currentPage);
+        }, () => {
+          this.isLoading = false;
+        });
+    }
   }
 
   onChangedPage(pageEvent: PageEvent) {

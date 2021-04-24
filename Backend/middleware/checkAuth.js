@@ -7,10 +7,18 @@ module.exports = (req, res, next) => {
         return res.status(401).json({ message: "Token is required !" });
     } else {
         try {
-            jwt.verify(token, 'secret-key-must-be-protected');
+            const decodedToken = jwt.verify(token, 'secret-key-must-be-protected');
+            req.userData = {
+                userId: decodedToken.userId,
+                email: decodedToken.email,
+            };
+
             next();
         } catch (error) {
-            return res.status(401).json({ message: "Token is invalid !" });
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token !",
+            });
 
         }
     }

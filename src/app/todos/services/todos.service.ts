@@ -24,6 +24,7 @@ export class TodosService {
                     todos: data.todos.map((todo: any) => {
                         return {
                             id: todo._id,
+                            creator: todo.creator,
                             title: todo.title,
                             content: todo.content,
                         }
@@ -46,8 +47,8 @@ export class TodosService {
     addTodo(todo: Todo) {
         this.httpClient.post<any>('http://127.0.0.1:3000/api/todos', todo)
             .subscribe((data) => {
+                this.router.navigate(['/']);
             });
-        this.router.navigate(['/']);
     }
 
     deleteTodo(id: string) {

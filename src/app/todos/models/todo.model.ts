@@ -1,5 +1,6 @@
 export interface Todo {
-    id: string;
+    id: string | null;
+    creator: string | null;
     title: string;
     content: string;
 }
