@@ -17,7 +17,7 @@ export class TodosService {
 
     getTodos(todoSize: number, currentPage: number) {
         const queryParams = "?pagesize=" + todoSize + "&currentpage=" + currentPage;
-        this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos"/* + queryParams */)
+        this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos" + queryParams)
             .pipe(map((data) => {
                 return {
                     todosLength: data.todosLength,
