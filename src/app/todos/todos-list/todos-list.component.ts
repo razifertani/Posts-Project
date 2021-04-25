@@ -33,9 +33,10 @@ export class TodosListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.userId = this.authService.getUserId();
-    this.todosService.getTodos(this.todosPerPage, this.currentPage);
+    this.todosService.getTodos(this.userId!, this.todosPerPage, this.currentPage);
     this.todosSub = this.todosService.getTodoUpdateListener()
       .subscribe((todos: { todos: Todo[], todosLength: number }) => {
+        console.log(this.totalTodos);
         this.isLoading = false;
         this.todos = todos.todos;
         this.totalTodos = todos.todosLength;
@@ -54,7 +55,7 @@ export class TodosListComponent implements OnInit, OnDestroy {
     if (id) {
       this.todosService.deleteTodo(id)
         .subscribe(() => {
-          this.todosService.getTodos(this.todosPerPage, this.currentPage);
+          this.todosService.getTodos(this.userId!, this.todosPerPage, this.currentPage);
         }, () => {
           this.isLoading = false;
         });
@@ -65,7 +66,7 @@ export class TodosListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentPage = pageEvent.pageIndex + 1;
     this.todosPerPage = pageEvent.pageSize;
-    this.todosService.getTodos(this.todosPerPage, this.currentPage);
+    this.todosService.getTodos(this.userId!, this.todosPerPage, this.currentPage);
   }
 
   ngOnDestroy(): void {

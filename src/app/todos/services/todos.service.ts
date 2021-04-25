@@ -15,8 +15,15 @@ export class TodosService {
         private router: Router,
     ) { }
 
-    getTodos(todoSize: number, currentPage: number) {
-        const queryParams = "?pagesize=" + todoSize + "&currentpage=" + currentPage;
+    getTodos(userId: string, todoSize: number, currentPage: number) {
+        let queryParams;
+        if (userId) {
+            queryParams = "?userId=" + userId + "&pagesize=" + todoSize + "&currentpage=" + currentPage;
+
+        } else {
+            queryParams = "?pagesize=" + todoSize + "&currentpage=" + currentPage;
+
+        }
         this.httpClient.get<any>("https://todos--project.herokuapp.com/api/todos" + queryParams)
             .pipe(map((data) => {
                 return {

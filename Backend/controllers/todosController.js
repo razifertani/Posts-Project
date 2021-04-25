@@ -5,8 +5,14 @@ const Todo = require('../models/todo');
 exports.getAllTodos = (req, res, next) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.currentpage;
-    const todoQuery = Todo.find();
+    let todoQuery;
     let fetchedTodos;
+
+    if (req.query.userId) {
+        todoQuery = Todo.find({ creator: req.query.userId });
+    } else {
+        todoQuery = Todo.find();
+    }
 
     if (pageSize && currentPage) {
         todoQuery
@@ -16,7 +22,7 @@ exports.getAllTodos = (req, res, next) => {
 
     todoQuery.then((data) => {
         fetchedTodos = data;
-        return Todo.countDocuments();
+        return Todo.countDocuments({ creator: req.query.userId });
     })
         .then((count) => {
             res.status(200).json({
