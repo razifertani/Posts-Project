@@ -1,5 +1,9 @@
 <mat-spinner *ngIf="isLoading"> </mat-spinner>
+
 <p class="info-text mat-body-1" *ngIf="!isAuthenticated && !isLoading"> Please login to create todos ! </p>
+
+<p class="info-text mat-body-1" *ngIf="isAuthenticated&& todos.length == 0 && !isLoading"> Create todo ! </p>
+
 <mat-accordion multi="true" *ngIf="todos.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let todo of todos">
         <mat-expansion-panel-header *ngIf="isAuthenticated && userId == todo.creator">
@@ -14,5 +18,5 @@
     </mat-expansion-panel>
 </mat-accordion>
 <mat-paginator [length]=totalTodos [pageSize]=todosPerPage [pageSizeOptions]=pageSizeOptions
-    (page)="onChangedPage($event)" *ngIf="isAuthenticated && userId == todo.creator && todos.length > 0">
+    (page)="onChangedPage($event)" *ngIf="todos.length > 0 && !isLoading && isAuthenticated">
 </mat-paginator>
